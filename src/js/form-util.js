@@ -112,21 +112,20 @@ export function prepareInputs (formInputs, reasonInputs, reasonFieldset, reasonA
     })
   })
 
-  var autogen = $('#autogen-btn');
+  const autogen = $('#autogen-btn')
   if (autogen !== null) {
     autogen.addEventListener('click', async (event) => {
       event.preventDefault()
-  
-      var profile = loadProfile()
-      var reasons = profile.reasons
-      var inputs = getProfile(formInputs)
+
+      const profile = loadProfile()
+      const reasons = profile.reasons
+      const inputs = getProfile(formInputs)
       profile.datesortie = inputs.datesortie
       profile.heuresortie = inputs.heuresortie
-  
+
       await generateAndDownloadPdf(reasons, profile)
     })
   }
-
 
   $('#generate-btn').addEventListener('click', async (event) => {
     event.preventDefault()
@@ -144,14 +143,14 @@ export function prepareInputs (formInputs, reasonInputs, reasonFieldset, reasonA
       return
     }
 
-    var profile = getProfile(formInputs)
+    const profile = getProfile(formInputs)
     profile.reasons = reasons
     saveProfile(profile)
 
     await generateAndDownloadPdf(reasons, profile)
   })
 
-  async function generateAndDownloadPdf(reasons, profile) {
+  async function generateAndDownloadPdf (reasons, profile) {
     const pdfBlob = await generatePdf(profile, reasons, pdfBase)
 
     const creationInstant = new Date()

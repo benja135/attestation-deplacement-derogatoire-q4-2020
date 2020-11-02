@@ -1,30 +1,29 @@
 import { $ } from './dom-utils'
 
 export function prepareAutoGenButton () {
-    const cookieExists = document.cookie.length != 0
-    var autogen = $('#autogen-btn')
-    if (!cookieExists) {
-        autogen.remove()
-    } else {
-        var profile = loadProfile()
-        var newBtnContent = autogen.textContent.replace("{name}", profile.firstname)
-        newBtnContent = newBtnContent.replace("{reasons}", profile.reasons)
-        autogen.textContent = newBtnContent
-    }
+  const cookieExists = document.cookie.length !== 0
+  const autogen = $('#autogen-btn')
+  if (!cookieExists) {
+    autogen.remove()
+  } else {
+    const profile = loadProfile()
+    let newBtnContent = autogen.textContent.replace('{name}', profile.firstname)
+    newBtnContent = newBtnContent.replace('{reasons}', profile.reasons)
+    autogen.textContent = newBtnContent
+  }
 }
 
 export function loadProfile () {
-    var cookieArray = document.cookie.split(';')
-    var profile = JSON.parse(cookieArray[0])
-    return profile
+  const cookieArray = document.cookie.split(';')
+  return JSON.parse(cookieArray[0])
 }
 
 export function saveProfile (profile) {
-    var value = JSON.stringify(profile)
-    var samesite = "samesite=STRICT"
-    var expireDate = new Date();
-    var expireTime = expireDate.getTime() + 1000*60*60*24*30;
-    expireDate.setTime(expireTime);
-    var expires = "expires=" + expireDate.toGMTString()
-    document.cookie = [value, samesite, expires].join(';')
+  const value = JSON.stringify(profile)
+  const samesite = 'samesite=STRICT'
+  const expireDate = new Date()
+  const expireTime = expireDate.getTime() + 1000 * 60 * 60 * 24 * 30
+  expireDate.setTime(expireTime)
+  const expires = 'expires=' + expireDate.toGMTString()
+  document.cookie = [value, samesite, expires].join(';')
 }
