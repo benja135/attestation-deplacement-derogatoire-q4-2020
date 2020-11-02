@@ -1,9 +1,9 @@
 import { $ } from './dom-utils'
 
 export function prepareAutoGenButton () {
-  const cookieExists = document.cookie.length !== 0
+  const profileExists = localStorage.getItem('profile') !== null
   const autogen = $('#autogen-btn')
-  if (!cookieExists) {
+  if (!profileExists) {
     autogen.remove()
   } else {
     const profile = loadProfile()
@@ -14,16 +14,9 @@ export function prepareAutoGenButton () {
 }
 
 export function loadProfile () {
-  const cookieArray = document.cookie.split(';')
-  return JSON.parse(cookieArray[0])
+  return JSON.parse(localStorage.getItem('profile'))
 }
 
 export function saveProfile (profile) {
-  const value = JSON.stringify(profile)
-  const samesite = 'samesite=STRICT'
-  const expireDate = new Date()
-  const expireTime = expireDate.getTime() + 1000 * 60 * 60 * 24 * 30
-  expireDate.setTime(expireTime)
-  const expires = 'expires=' + expireDate.toGMTString()
-  document.cookie = [value, samesite, expires].join(';')
+  localStorage.setItem('profile', JSON.stringify(profile))
 }
