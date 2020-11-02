@@ -2,6 +2,7 @@ import { $, $$, downloadBlob } from './dom-utils'
 import { addSlash, getFormattedDate } from './util'
 import pdfBase from '../certificate.pdf'
 import { generatePdf } from './pdf-util'
+import { loadProfile, saveProfile } from './autogen'
 
 const conditions = {
   '#field-firstname': {
@@ -111,6 +112,22 @@ export function prepareInputs (formInputs, reasonInputs, reasonFieldset, reasonA
     })
   })
 
+  var autogen = $('#autogen-btn');
+  if (autogen !== null) {
+    autogen.addEventListener('click', async (event) => {
+      event.preventDefault()
+  
+      var profile = loadProfile()
+      var reasons = profile.reasons
+      var inputs = getProfile(formInputs)
+      profile.datesortie = inputs.datesortie
+      profile.heuresortie = inputs.heuresortie
+  
+      await generateAndDownloadPdf(reasons, profile)
+    })
+  }
+
+
   $('#generate-btn').addEventListener('click', async (event) => {
     event.preventDefault()
 
@@ -127,9 +144,15 @@ export function prepareInputs (formInputs, reasonInputs, reasonFieldset, reasonA
       return
     }
 
-    console.log(getProfile(formInputs), reasons)
+    var profile = getProfile(formInputs)
+    profile.reasons = reasons
+    saveProfile(profile)
 
-    const pdfBlob = await generatePdf(getProfile(formInputs), reasons, pdfBase)
+    await generateAndDownloadPdf(reasons, profile)
+  })
+
+  async function generateAndDownloadPdf(reasons, profile) {
+    const pdfBlob = await generatePdf(profile, reasons, pdfBase)
 
     const creationInstant = new Date()
     const creationDate = creationInstant.toLocaleDateString('fr-CA')
@@ -146,7 +169,7 @@ export function prepareInputs (formInputs, reasonInputs, reasonFieldset, reasonA
       snackbar.classList.remove('show')
       setTimeout(() => snackbar.classList.add('d-none'), 500)
     }, 6000)
-  })
+  }
 }
 
 export function prepareForm () {

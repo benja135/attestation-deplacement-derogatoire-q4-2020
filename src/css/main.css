@@ -356,6 +356,13 @@ input[type=number] {
   background-color: #3031C1;
 }
 
+.btn-autogen {
+  padding: 0.9em;
+  font-size: 1.2em;
+  font-weight: bold;
+  border-radius: 0.5em;
+}
+
 .github {
   font-size: 0.7em;
   text-align: center;
