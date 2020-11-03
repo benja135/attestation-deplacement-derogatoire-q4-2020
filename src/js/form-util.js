@@ -118,11 +118,14 @@ export function prepareInputs (formInputs, reasonInputs, reasonFieldset, reasonA
       event.preventDefault()
 
       const profile = loadProfile()
-      const reasons = profile.reasons
+      const selectReason = $('#selectReason')
+      const reasons = selectReason.value
+      profile.reasons = reasons
       const inputs = getProfile(formInputs)
       profile.datesortie = inputs.datesortie
       profile.heuresortie = inputs.heuresortie
 
+      saveProfile(profile)
       await generateAndDownloadPdf(reasons, profile)
     })
   }

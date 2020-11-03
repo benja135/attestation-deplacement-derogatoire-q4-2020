@@ -2,14 +2,16 @@ import { $ } from './dom-utils'
 
 export function prepareAutoGenButton () {
   const profileExists = localStorage.getItem('profile') !== null
-  const autogen = $('#autogen-btn')
+  const autogenForm = $('#form-autogen')
   if (!profileExists) {
-    autogen.remove()
+    autogenForm.remove()
   } else {
     const profile = loadProfile()
-    let newBtnContent = autogen.textContent.replace('{name}', profile.firstname)
-    newBtnContent = newBtnContent.replace('{reasons}', profile.reasons)
-    autogen.textContent = newBtnContent
+    const profileInfos = $('#profile-infos')
+    profileInfos.textContent = profileInfos.textContent.replace('{prenom}', profile.firstname)
+    profileInfos.textContent = profileInfos.textContent.replace('{nom}', profile.lastname)
+    const selectReason = $('#selectReason')
+    selectReason.value = profile.reasons
   }
 }
 

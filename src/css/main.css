@@ -363,6 +363,25 @@ input[type=number] {
   border-radius: 0.5em;
 }
 
+#selectReason {
+  background-color: #ffc107;
+  border-color: white;
+  font-size: 1.0em;
+  font-weight: bold;
+  border-radius: 0.5em;
+  color: black;
+}
+
+#profile-infos {
+  background-color: #ffc107;
+  border-color: white;
+  font-size: 1.0em;
+  font-weight: bold;
+  border-radius: 0.5em;
+  color: black;
+  padding: 0.9em;
+}
+
 .github {
   font-size: 0.7em;
   text-align: center;
